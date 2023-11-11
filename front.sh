@@ -14,4 +14,4 @@ echo '停止旧容器并删除旧容器'
 docker stop test-docker-vue-cli-front-conatiner
 docker rm test-docker-vue-cli-front-conatiner
 echo '启动新容器'
-docker container run -p 80:80 --name test-docker-vue-cli-front-conatiner -d test-docker-vue-cli-front:1.0
+docker container run -p 8080:80 --name test-docker-vue-cli-front-conatiner -d test-docker-vue-cli-front:1.0
