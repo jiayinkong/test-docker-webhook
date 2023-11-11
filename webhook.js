@@ -8,7 +8,7 @@ function sign(body) {
 }
 
 const server = http.createServer((req, res) => {
-  console.log(req.method, req.url)
+  console.log(req.method, req.url, Date.now())
 
   if(req.method === 'POST' && req.url === '/webhook') {
     let buffers = [];
@@ -37,12 +37,12 @@ const server = http.createServer((req, res) => {
         const child = spawn('sh', [`./${payload.repository.name}.sh`])
         
         const buffers = []
-        child.stdout.on('data'm function(buffer) {
+        child.stdout.on('data', function(buffer) {
           buffers.push(buffer)
         })
         child.stdout.on('end', function(buffer) {
           const log = Buffer.concat(buffers)
-          console.log(log)
+          console.log(log.toString())
         })
       }
     })
