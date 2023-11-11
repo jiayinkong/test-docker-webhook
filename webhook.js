@@ -15,7 +15,13 @@ const server = http.createServer((req, res) => {
     req.on('data', function(buffer) {
       console.log('request on data: ', buffer)
       buffers.push(buffer)
+
+      console.log('finish push buffer to buffers')
     })
+
+
+    console.log(buffers, '------------ ready to end ---------')
+
     req.on('end', function(buffer) {
       console.log('request on end....')
       let body = Buffer.concat(buffers)
