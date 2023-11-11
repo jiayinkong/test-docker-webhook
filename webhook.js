@@ -1,5 +1,7 @@
 const http = require('http')
-let crypto = require('crypto')
+const crypto = require('crypto')
+const { spawn } = require('child_process')
+
 const SECRET = '123456'
 function sign(body) {
   return `sha1=` + crypto.createHmac('sha1', SECRET).update(body).digest('hex')
@@ -22,6 +24,26 @@ const server = http.createServer((req, res) => {
       // 请求不合法
       if(signature !== sign(body)) {
         return res.end('Not Allowed')
+      }
+
+      res.setHeader('Content-Type', 'application/json')
+      res.end(
+        JSON.stringify({ ok: true })
+      )
+
+      if(event === 'push') {
+        // 开始部署
+        const payload = JSON.parse(body)
+        const child = spawn('sh', [`./${payload.repository.name}.sh`])
+        
+        const buffers = []
+        child.stdout.on('data'm function(buffer) {
+          buffers.push(buffer)
+        })
+        child.stdout.on('end', function(buffer) {
+          const log = Buffer.concat(buffers)
+          console.log(log)
+        })
       }
     })
     res.setHeader('Content-Type', 'application/json')
