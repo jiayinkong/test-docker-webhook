@@ -1,5 +1,5 @@
 #!/bin/bash
-WORK_PATH='/usr/prjects/test-docker-back'
+WORK_PATH='/usr/projects/test-docker-back'
 cd $WORK_PATH
 echo '先清除代码'
 git reset --hard origin/main
